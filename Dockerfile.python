@@ -1,0 +1,51 @@
+# syntax=docker/dockerfile:1.2
+
+ARG PYTHON_VERSION=3.8
+
+# Get watchman
+FROM debian:bullseye AS watchman
+RUN apt-get update && apt-get install -y watchman
+# Done
+
+# Create the project image
+FROM python:$PYTHON_VERSION
+
+# Get the watchman binary from the previous stage
+RUN mkdir -p /usr/local/bin /usr/local/var/run/watchman
+COPY --from=watchman /usr/bin/watchman /usr/local/bin/
+RUN chmod 2777 /usr/local/var/run/watchman
+
+# Install extras packages
+RUN apt-get update && apt-get install -y \
+    sudo \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a "developer" user, with sudo privileges (no password)
+RUN useradd -ms /bin/bash developer && \
+    echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+USER developer
+
+# Custom prompt to identify the container
+RUN echo 'export PS1="\u@nuxt-wagtail-starter-python:\w$ "' >> ~/.bashrc
+
+# Make sure stdout is not buffered, in order to see output in real time
+ENV PYTHONUNBUFFERED 1
+
+# Require an active virtualenv for pip
+ENV PIP_REQUIRE_VIRTUALENV true
+
+# "activate" the virtualenv created by python-entrypoint.sh
+ENV VIRTUAL_ENV /code/var/venv
+ENV PATH $VIRTUAL_ENV/bin:$PATH
+
+# Configure watchman
+ENV DJANGO_WATCHMAN_TIMEOUT 30
+
+# Create .pgpass
+RUN echo "*:*:*:postgres:postgres" > ~/.pgpass
+RUN chmod 600 ~/.pgpass
+
+WORKDIR /code
+COPY python-entrypoint.sh .
+
+ENTRYPOINT ["./python-entrypoint.sh"]

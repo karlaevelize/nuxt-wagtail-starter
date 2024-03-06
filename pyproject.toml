@@ -1,0 +1,123 @@
+[project]
+name = "mysite"
+requires-python = ">=3.8"  # server constraint
+
+[tool.ruff]
+unsafe-fixes = false
+line-length = 88
+extend-exclude = [
+  "var/*",
+  "*/migrations/*",
+  "scripts/"
+]
+
+[tool.ruff.lint]
+select = [
+  "ALL",  # enable all rules
+]
+preview = true  # even the experimental ones
+ignore = [
+  "A003",  # builtins may be shadowed by class atrributes (e.g. "id")
+  "ANN",  # annotations are not (yet) required
+  "ARG",  # unused arguments are allowed
+  "B904",  # raise-without-from-inside-except is OK
+  "COM812",  # trailing commas in function calls are not required
+  "COM819",  # trailing comma in tuple is allowed
+  "CPY001",  # copyright notice is not required
+  "D",  # docstring checks are disabled
+  "DJ008",  # __str__ methods are not required for models
+  "EM",  # error messages do not need to be assigned to a variable
+  "FIX",  # tasks/issue can be fixed later
+  "ISC001", # implicitly concatenated string literals on one line
+  "PLC1901",  # `foo == ""` is *not equivalent* to `not foo`
+  "PLR6301",  # methods do not have to use self
+  "PT",  # pytest style is not required
+  "PTH",  # use of pathlib is not required
+  "PYI",  # disable type hinting stub file checks
+  "RET503",  # explicit return of None is not required
+  "RET505",  # else after return is OK
+  "RET506",  # else after raise is OK
+  "RUF012",  # typing.ClassVar is not required
+  "SIM105",  # contextlib.suppress and try/except/pass are both OK
+  "SIM108",  # if/else blocks and tenary operators are both OK
+  "TD001",  # "FIXME" is OK
+  "TD002",  # task author is not required
+  "TD003",  # link to issue is recommended but not required
+  "TID252",  # relative imports are OK
+  "TRY003",  # long error messages are OK
+]
+allowed-confusables = [
+  # Allow some confusable characters, e.g.:
+  # "–",  # (EN DASH)
+]
+unfixable = [
+  # manually fix/noqa
+  "RUF100",  # unused/unknown noqa comments
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/*" = [
+  # This is OK in test code
+  "PLR0904",  # too many public methods
+  "PLR2004",  # magic values
+  "PLR6301",  # methods do not have to use self
+  "S105", "S106", "S107",  # hardcoded passwords
+  "S311",  # pseudo-random number generators
+]
+
+[tool.ruff.lint.flake8-self]
+extend-ignore-names = [
+  "_default_manager",  # django
+  "_meta",  # django
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 12
+
+[tool.ruff.lint.pep8-naming]
+extend-ignore-names = [
+  # add custom camel-case names (e.g. assertFooBar)
+]
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 88
+
+[tool.ruff.lint.pylint]
+max-args = 10  # default is 5
+
+[tool.ruff.lint.isort]
+lines-between-types = 1
+section-order = [
+  "future",
+  "standard-library",
+  "third-party",
+  "django",
+  "first-party",
+  "local-folder",
+]
+
+[tool.ruff.lint.isort.sections]
+django = [
+  "django",
+]
+
+[tool.coverage.run]
+branch = true
+source = [
+  "content",
+  "tests",
+]
+omit = [
+  "./var/*",
+  "**/[aw]sgi.py",
+  "**/migrations/*",
+  "**/settings.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+skip_empty = true
+
+[tool.coverage.html]
+directory = "var/htmlcov"

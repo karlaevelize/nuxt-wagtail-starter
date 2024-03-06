@@ -1,0 +1,20 @@
+FROM node:18
+
+# Install extras packages
+RUN apt-get update && apt-get install -y \
+    sudo \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a "developer" user, with sudo privileges (no password)
+RUN useradd -ms /bin/bash developer && \
+    echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+USER developer
+
+# Custom prompt to identify the container
+RUN echo 'export PS1="\u@nuxt-wagtail-starter-node:\w$ "' >> ~/.bashrc
+
+WORKDIR /code
+
+COPY /nodejs-entrypoint.sh .
+
+ENTRYPOINT ["./nodejs-entrypoint.sh"]

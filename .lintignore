@@ -1,0 +1,9 @@
+var/
+dist/
+.histoire/
+.nuxt/
+.output/
+server/
+content/
+*.md
+*.yml

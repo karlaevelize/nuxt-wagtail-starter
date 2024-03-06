@@ -1,0 +1,8 @@
+Wagtail~=5.2.2  # Wagtail controls the Django version
+django-cors-headers
+leukeleu-django-checks~=1.2
+leukeleu-django-gdpr~=1.4
+psycopg2-binary~=2.9.6
+sentry-sdk~=1.18
+urllib3<2  # server constraint
+wagtail-headless-preview

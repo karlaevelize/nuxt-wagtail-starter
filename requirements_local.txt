@@ -1,0 +1,5 @@
+-r requirements.txt
+
+coverage[toml]~=7.2
+pywatchman~=1.4.1
+ruff~=0.2.1

@@ -1,0 +1,26 @@
+{
+  "name": "my-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run dev --workspace frontend",
+    "generate": "npm run generate --workspace frontend",
+    "prettier": "prettier . --cache --ignore-path .lintignore",
+    "lint": "concurrently -g npm:lint:*",
+    "lint:prettier": "npm run prettier -- --check",
+    "lintfix:prettier": "npm run prettier -- --write",
+    "lint:js": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mt --cache --ignore-path .lintignore",
+    "lintfix:js": "npm run lint:js -- --fix",
+    "lintfix": "npm run lintfix:prettier && npm run lintfix:js",
+    "type-check": "npm run type-check --workspaces --if-present"
+  },
+  "workspaces": [
+    "frontend"
+  ],
+  "devDependencies": {
+    "@leukeleu/eslint-config": "~1.10.0",
+    "@leukeleu/prettier-config": "~2.1.0",
+    "concurrently": "~8.2.2"
+  }
+}

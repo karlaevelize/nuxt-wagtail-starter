@@ -1,0 +1,20 @@
+*.pyc
+*.pem
+*.css.map
+local.ini
+.coverage
+/var/*
+!/var/README.md
+/media/
+/static/
+logs/*
+/dist/
+.eslintcache
+
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
