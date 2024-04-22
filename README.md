@@ -1,6 +1,6 @@
 # Nuxt / Wagtail Starter
 
-This project is a starter for a Nuxt.js frontend and a Wagtail CMS backend.
+This project is a starter for a Nuxt.js frontend with a Wagtail CMS backend.
 
 ## Set up
 
